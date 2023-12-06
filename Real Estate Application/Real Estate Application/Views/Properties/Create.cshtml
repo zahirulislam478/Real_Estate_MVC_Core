@@ -1,0 +1,148 @@
+﻿@model PropertyInputModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+<div class="row" style="margin-top: 100px;">
+    <div class="col-12">
+        <h3 class="d-flex justify-content-center"><strong>Add new properties</strong></h3>
+        <form asp-action="Create" asp-controller="Properties" method="post" enctype="multipart/form-data">
+            <div class="form-group row mb-1">
+                <label asp-for="Address" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="text" asp-for="Address" class="form-control form-control-sm" />
+                    <span asp-validation-for="Address" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="Type" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <select asp-for="Type" class="form-select form-select-sm">
+                        <option>Residential</option>
+                        <option>Commercial</option>
+                        <option>Industrial</option>
+                        <option value="" selected>Choose one</option>
+                    </select>
+                    <span asp-validation-for="Type" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="Price" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="text" asp-for="Price" class="form-control form-control-sm" />
+                    <span asp-validation-for="Price" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="Bedrooms" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="text" asp-for="Bedrooms" class="form-control form-control-sm" />
+                    <span asp-validation-for="Bedrooms" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="Bathrooms" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="text" asp-for="Bathrooms" class="form-control form-control-sm" />
+                    <span asp-validation-for="Bathrooms" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="SquareFootage" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="text" asp-for="SquareFootage" class="form-control form-control-sm" />
+                    <span asp-validation-for="SquareFootage" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <label asp-for="Picture" class="col-form-label col-form-label-sm col-2 text-end"></label>
+                <div class="col-6">
+                    <input type="file" asp-for="Picture" class="form-control form-control-sm" />
+                    <span asp-validation-for="Picture" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+
+                <div class="col-6 offset-2">
+                    <div class="form-check">
+                        <input type="checkbox" asp-for="IsAvailable">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Is Available
+                        </label>
+                    </div>
+                    <span asp-validation-for="IsAvailable" class="text-danger" style="font-size:small" />
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <div class="col-10 offset-1 ">
+                    <h4 class="d-flex justify-content-center"><strong>Qualifications</strong></h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>CustomerName</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>MoveInDate</th>
+                                <th>
+                                    <button type="submit" formnovalidate name="act" value="add" class="btn btn-sm btn-secondary">Add</button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Customers.Count; i++)
+                            {
+                                <tr>
+                                    <td>
+                                        <input asp-for="@Model.Customers[i].CustomerName" class="form-control form-control-sm" />
+                                        <span asp-validation-for="@Model.Customers[i].CustomerName" class="text-danger" style="font-size:small" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Customers[i].Phone" class="form-control form-control-sm" />
+                                        <span asp-validation-for="@Model.Customers[i].Phone" class="text-danger" style="font-size:small" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Customers[i].Email" class="form-control form-control-sm" />
+                                        <span asp-validation-for="@Model.Customers[i].Email" class="text-danger" style="font-size:small" />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.Customers[i].MoveInDate" class="form-control form-control-sm" type="date" />
+                                        <span asp-validation-for="@Model.Customers[i].MoveInDate" class="text-danger" style="font-size:small" />
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-danger btn-sm" formnovalidate name="act" value="remove_@i">Remove</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group row mb-1">
+                <div class="col-10 offset-1">
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-secondary"><a asp-action="Index" asp-controller="Properties" style="color:white; text-decoration:none;">Back to Home</a></button>
+                        <button type="submit" class="btn btn-primary" name="act" value="insert">Save</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section styles
+    {
+    <link href="~/lib/css/bootstrap-datepicker.standalone.css" rel="stylesheet" />
+}
+@section scripts
+    {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/js/bootstrap-datepicker.js"></script>
+    <script>
+        $("#MoveInDate").datepicker({
+            format: 'yyyy-mm-dd'
+        });
+    </script>
+
+}

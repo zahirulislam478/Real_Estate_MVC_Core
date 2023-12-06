@@ -1,0 +1,120 @@
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@model IEnumerable<Property>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="row" style="margin-top:100px; margin-bottom:100px;">
+    <div class="col-12">
+        <h3 class="d-flex justify-content-center"><strong>Property List</strong></h3>
+        <div class="d-flex justify-content-end mb-1">
+            <a href="@Url.Action("Create", "Properties")" class="btn btn-outline-primary btn-sm mb-1"> + Create New</a>
+        </div>
+        <table class="table table-bordered table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th class="text-center"><i class="bi bi-chevron-bar-expand"></i></th>
+                    <th>Property Image</th>
+                    <th>Address</th>
+                    <th>SquareFootage</th>
+                    <th>Bedrooms</th>
+                    <th>Bathrooms</th>
+                    <th>Type</th>
+                    <th>Price</th>
+                    <th>Is Available?</th>
+                    <th>...</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var a in Model)
+                {
+                    <tr style="vertical-align:middle">
+                        <td class="text-center" style="width:50px">
+                            <button type="button" class="btn btn-light btn-sm show-inventory"><i class="bi bi-chevron-right"></i></button>
+                            <button type="button" class="btn btn-light btn-sm hide-inventory" style="display:none"><i class="bi bi-chevron-down"></i></button>
+                        </td>
+                        <td class="text-center" style="padding:0; width:150px">
+                            <img src="~/Pictures/@a.Picture" class="img" style="width:80px; height:50px;" />
+                        </td>
+                        <td>@a.Address</td>
+                        <td>@a.SquareFootage</td>
+                        <td>@a.Bedrooms</td>
+                        <td>@a.Bathrooms</td>
+                        <td>@a.Type</td>
+                        <td>@a.Price</td>
+                        <td>@(a.IsAvailable ? "Yes" : "No")</td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="Properties" asp-route-id="@a.PropertyId" class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                            <a asp-action="Delete" asp-controller="Properties" asp-route-id="@a.PropertyId" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
+                        </td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="border-end-0"></td>
+                        <td colspan="9" class="border-start-0">
+                            <h3 class="d-flex justify-content-center" style="background-color:#3EC1D5;"><strong>Customers</strong></h3>
+                            <table class="table table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>CustomerName</th>
+                                        <th>Phone</th>
+                                        <th>Email</th>
+                                        <th>MoveInDate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var q in a.Customers)
+                                    {
+                                        <tr>
+                                            <td>@q.CustomerName</td>
+                                            <td>@q.Phone</td>
+                                            <td>@q.Email</td>
+                                            <td>@q.MoveInDate</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <div class="mb-2">
+                <button class="btn btn-secondary"><a asp-action="Index" asp-controller="Home" style="color:white; text-decoration:none;">Back to Home</a></button>
+            </div>
+            <div class="d-flex justify-content-center mb-2">
+                @Html.PagedListPager((IPagedList)Model, pg => Url.Action("Index", new { pg }), new PagedListRenderOptions
+                {
+                LiElementClasses = new string[] { "page-item" },
+                PageClasses = new string[] { "page-link" },
+                DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+                DisplayLinkToNextPage = PagedListDisplayMode.Always
+
+                })
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+    {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+@*    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+*@}
+@section scripts
+    {
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script>
+        $(".show-inventory").click(function () {
+            $(this).closest("tr").next().toggle();
+            $(this).toggle();
+            $(this).next().toggle();
+        });
+        $(".hide-inventory").click(function () {
+            $(this).closest("tr").next().toggle();
+            $(this).toggle();
+            $(this).prev().toggle();
+        });
+    </script>
+}
